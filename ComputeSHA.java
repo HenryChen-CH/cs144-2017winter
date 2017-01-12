@@ -31,8 +31,6 @@ class ComputeSHA {
             System.out.println("MessageDigest no such algorithm");
         } catch (IOException e) {
             System.out.println("IO error");
-        } finally {
-            System.out.println("Error");
         }
         return;
     }
