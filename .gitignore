@@ -3,3 +3,5 @@
 *.class
 *.txt
 *.zip
+*.xml
+*.dtd
