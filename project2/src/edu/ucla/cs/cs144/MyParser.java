@@ -39,13 +39,19 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.ErrorHandler;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 
 class MyParser {
     
     static final String columnSeparator = "|*|";
+    static final String nullSeparator = "\\N";
     static DocumentBuilder builder;
     static BufferedWriter itemsFile, bidsFile, categoriesFile, sellersFile, biddersFile;
+    static final String[] itemCols =
+            new String[]{"Name", "Currently", "Buy_Price", "First_Bid", "Location", "Country", "Started", "Ends", "Seller","Description"};
 
     static final String[] typeName = {
 	"none",
@@ -183,11 +189,125 @@ class MyParser {
         
         /* Fill in code here (you will probably need to write auxiliary
             methods). */
-        
-        
+        StringBuilder itemsSb;
+        StringBuilder bidsSb;
+        StringBuilder categoriesSb;
+        StringBuilder sellersSb;
+        StringBuilder biddersSb;
+        String itemID;
+        try {
+            for (Element item : getElementsByTagNameNR(doc.getDocumentElement(), "Item")) {
+                itemsSb = new StringBuilder();
+                sellersSb = new StringBuilder();
+                biddersSb = new StringBuilder();
+
+                // Items
+                itemID = item.getAttribute("ItemID");
+                itemsSb.append(itemID);
+                itemsSb.append(columnSeparator);
+                for (int i = 0; i < itemCols.length; i++) {
+                    if (itemCols[i].equals("Currently") || itemCols[i].equals("Buy_Price") || itemCols[i].equals("First_Bid")) {
+                        String price = getElementTextByTagNameNR(item, itemCols[i]);
+                        if (price.length() == 0) {
+                            itemsSb.append(nullSeparator);
+                        } else {
+                            itemsSb.append(strip(price));
+                        }
+                        itemsSb.append(columnSeparator);
+                    } else if (itemCols[i].equals("Location")) {
+                        Element location = getElementByTagNameNR(item, itemCols[i]);
+                        itemsSb.append(getElementText(location));
+                        itemsSb.append(columnSeparator);
+                        String tmp_lat = location.getAttribute("Latitude");
+                        String tmp_long = location.getAttribute("Longitude");
+                        itemsSb.append(tmp_lat.length() == 0 ? nullSeparator : tmp_lat);
+                        itemsSb.append(columnSeparator);
+                        itemsSb.append(tmp_long.length() == 0 ? nullSeparator : tmp_long);
+                        itemsSb.append(columnSeparator);
+                    } else if (itemCols[i].equals("Started") || itemCols[i].equals("Ends")) {
+                        String time = getElementTextByTagNameNR(item, itemCols[i]);
+                        itemsSb.append(timeToMysql(time));
+                        itemsSb.append(columnSeparator);
+                    } else if (itemCols[i].equals("Seller")) {
+                        itemsSb.append(getElementByTagNameNR(item, itemCols[i]).getAttribute("SellerID"));
+                        itemsSb.append(columnSeparator);
+                    } else if (itemCols[i].equals("Description")) {
+                        String description = getElementTextByTagNameNR(item, itemCols[i]);
+                        itemsSb.append(description.substring(0, Math.min(4000, description.length())));
+                        itemsSb.append("\n");
+                    } else {
+                        itemsSb.append(getElementTextByTagNameNR(item, itemCols[i]));
+                        itemsSb.append(columnSeparator);
+                    }
+                }
+                itemsFile.write(itemsSb.toString());
+
+                // categories
+                Element[] categories = getElementsByTagNameNR(item, "Category");
+                for (Element category : categories) {
+                    categoriesSb = new StringBuilder();
+                    categoriesSb.append(itemID);
+                    categoriesSb.append(columnSeparator);
+                    categoriesSb.append(getElementText(category));
+                    categoriesSb.append("\n");
+                    categoriesFile.write(categoriesSb.toString());
+                }
+
+                //Bids
+                Element[] bids = getElementsByTagNameNR(getElementByTagNameNR(item, "Bids"), "Bid");
+                for (Element bid : bids) {
+                    bidsSb = new StringBuilder();
+                    biddersSb = new StringBuilder();
+                    Element bidder = getElementByTagNameNR(bid, "Bidder");
+                    biddersSb.append(bidder.getAttribute("UserID"));
+                    biddersSb.append(columnSeparator);
+                    biddersSb.append(bidder.getAttribute("Rating"));
+                    biddersSb.append(columnSeparator);
+                    biddersSb.append(getElementTextByTagNameNR(bidder, "Location"));
+                    biddersSb.append(columnSeparator);
+                    biddersSb.append(getElementTextByTagNameNR(bidder, "Country"));
+                    biddersSb.append("\n");
+                    biddersFile.write(biddersSb.toString());
+
+                    bidsSb.append(itemID);
+                    bidsSb.append(columnSeparator);
+                    bidsSb.append(bidder.getAttribute("UserID"));
+                    bidsSb.append(columnSeparator);
+                    bidsSb.append(timeToMysql(getElementTextByTagNameNR(bid, "Time")));
+                    bidsSb.append(columnSeparator);
+                    bidsSb.append(strip(getElementTextByTagNameNR(bid, "Amount")));
+                    bidsSb.append("\n");
+                    bidsFile.write(bidsSb.toString());
+                }
+
+                // sellers
+                Element seller = getElementByTagNameNR(item, "Seller");
+                sellersSb.append(seller.getAttribute("UserID"));
+                sellersSb.append(columnSeparator);
+                sellersSb.append(seller.getAttribute("Rating"));
+                sellersSb.append("\n");
+                sellersFile.write(sellersSb.toString());
+
+
+            }
+        } catch (IOException e) {
+            System.out.println("IO Exception");
+        }
         
         /**************************************************************/
         
+    }
+
+    private static String timeToMysql(String time) {
+        SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
+        try {
+            Date tmp = format.parse(time);
+            format.applyPattern("yyyy-MM-dd HH:mm:ss");
+            return format.format(tmp);
+        } catch (ParseException e) {
+            System.out.println("Parse Exception");
+        }
+        return "";
     }
     
     public static void main (String[] args) {
