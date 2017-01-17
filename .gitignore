@@ -6,3 +6,5 @@
 *.xml
 *.dtd
 !README.txt
+ant-test/*.*
+project2.iml

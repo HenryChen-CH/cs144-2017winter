@@ -45,7 +45,8 @@ class MyParser {
     
     static final String columnSeparator = "|*|";
     static DocumentBuilder builder;
-    
+    static BufferedWriter itemsFile, bidsFile, categoriesFile, sellersFile, biddersFile;
+
     static final String[] typeName = {
 	"none",
 	"Element",
@@ -211,11 +212,27 @@ class MyParser {
             System.out.println("parser was unable to be configured");
             System.exit(2);
         }
-        
-        /* Process all files listed on command line. */
-        for (int i = 0; i < args.length; i++) {
-            File currentFile = new File(args[i]);
-            processFile(currentFile);
+
+        try {
+            itemsFile = new BufferedWriter(new FileWriter("Items.csv", false));
+            bidsFile = new BufferedWriter(new FileWriter("Bids.csv", false));
+            categoriesFile = new BufferedWriter(new FileWriter("Categories.csv", false));
+            sellersFile = new BufferedWriter(new FileWriter("Sellers.csv", false));
+            biddersFile = new BufferedWriter(new FileWriter("Bidders.csv", false));
+
+            /* Process all files listed on command line. */
+            for (int i = 0; i < args.length; i++) {
+                File currentFile = new File(args[i]);
+                processFile(currentFile);
+            }
+
+            itemsFile.close();
+            bidsFile.close();
+            categoriesFile.close();
+            sellersFile.close();
+            biddersFile.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception");
         }
     }
 }
