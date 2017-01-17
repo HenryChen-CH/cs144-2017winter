@@ -12,7 +12,7 @@ The design of table is as following:
 
 The functional dependences:
 
-Items.ItemID -> Currently, Buy_Price, First_Bid, Latitude, Longitude, Country, Started, Ends, SellerID, Description
+Items.ItemID -> Name, Currently, Buy_Price, First_Bid, Latitude, Longitude, Country, Started, Ends, SellerID, Description
 (ItemId, BidderID, Time)-> Amount
 Sellers.UserID -> Rating
 Bidders.Bidders -> Rating, Address, Country
