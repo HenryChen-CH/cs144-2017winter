@@ -229,7 +229,7 @@ class MyParser {
                         itemsSb.append(timeToMysql(time));
                         itemsSb.append(columnSeparator);
                     } else if (itemCols[i].equals("Seller")) {
-                        itemsSb.append(getElementByTagNameNR(item, itemCols[i]).getAttribute("SellerID"));
+                        itemsSb.append(getElementByTagNameNR(item, itemCols[i]).getAttribute("UserID"));
                         itemsSb.append(columnSeparator);
                     } else if (itemCols[i].equals("Description")) {
                         String description = getElementTextByTagNameNR(item, itemCols[i]);
@@ -253,7 +253,7 @@ class MyParser {
                     categoriesFile.write(categoriesSb.toString());
                 }
 
-                //Bids
+                //Bids && Bidders
                 Element[] bids = getElementsByTagNameNR(getElementByTagNameNR(item, "Bids"), "Bid");
                 for (Element bid : bids) {
                     bidsSb = new StringBuilder();
