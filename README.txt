@@ -2,9 +2,9 @@ The design of table is as following:
 
 	1) Items(ItemID, Name, Currently, Buy_Price, First_Bid, Location, Latitude, Longitude, Country, Started, Ends, SellerID, Description), primary key(ItemID), foreign key: SellerID->Sellers.UserID
 
-	2) Bids(ItemId, UserID, Time, Amount), primary key(ItemId, UserID, Time), foreign key: ItemID->Items.ItemID, UserID->Bidders.UserID
+	2) Bids(ItemId, UserID, BidTime, Amount), primary key(ItemId, UserID, BidTime), foreign key: ItemID->Items.ItemID, UserID->Bidders.UserID
 
-	3) Categories(ItemID, category), primary key(ItemID, category), foreign key: ItemID->Items.ItemID
+	3) Categories(ItemID, Category), primary key(ItemID, Category), foreign key: ItemID->Items.ItemID
 
 	4) Sellers(UserID, Rating), primary key(UserID)
 
