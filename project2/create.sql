@@ -13,7 +13,7 @@ create table Items(
     SellerID varchar(50) NOT NULL,
     Description varchar(4000) not null,
     primary key(ItemID)
-);
+)ENGINE = INNODB;
 
 create table Bids(
     ItemID integer not null,
@@ -21,19 +21,19 @@ create table Bids(
     BidTime timestamp not null,
     Amount decimal(8,2) not null,
     primary key(ItemID, UserID, BidTime)
-);
+)ENGINE = INNODB;
 
 create table Categories(
     ItemID integer not null,
     Category varchar(100) not null,
     primary key(ItemID, Category)
-);
+)ENGINE = INNODB;
 
 create table Sellers(
     UserID varchar(50) not null,
     Rating integer not null,
     primary key(UserID)
-);
+)ENGINE = INNODB;
 
 create table Bidders(
     UserID varchar(50) not null,
@@ -41,4 +41,4 @@ create table Bidders(
     Address varchar(100) not null,
     Country varchar(50) not null,
     primary key(UserID)
-);
+)ENGINE = INNODB;
