@@ -1,3 +1,9 @@
+create table Sellers(
+    UserID varchar(50) not null,
+    Rating integer not null,
+    primary key(UserID)
+)ENGINE = INNODB;
+
 create table Items(
     ItemID integer NOT NULL,
     Name varchar(50) NOT NULL,
@@ -12,27 +18,8 @@ create table Items(
     Ends timestamp NOT NULL,
     SellerID varchar(50) NOT NULL,
     Description varchar(4000) not null,
-    primary key(ItemID)
-)ENGINE = INNODB;
-
-create table Bids(
-    ItemID integer not null,
-    UserID varchar(50) not null,
-    BidTime timestamp not null,
-    Amount decimal(8,2) not null,
-    primary key(ItemID, UserID, BidTime)
-)ENGINE = INNODB;
-
-create table Categories(
-    ItemID integer not null,
-    Category varchar(100) not null,
-    primary key(ItemID, Category)
-)ENGINE = INNODB;
-
-create table Sellers(
-    UserID varchar(50) not null,
-    Rating integer not null,
-    primary key(UserID)
+    primary key(ItemID),
+    foreign key(SellerID) references Sellers(UserID)
 )ENGINE = INNODB;
 
 create table Bidders(
@@ -41,4 +28,21 @@ create table Bidders(
     Address varchar(100) not null,
     Country varchar(50) not null,
     primary key(UserID)
+)ENGINE = INNODB;
+
+create table Bids(
+    ItemID integer not null,
+    UserID varchar(50) not null,
+    BidTime timestamp not null,
+    Amount decimal(8,2) not null,
+    primary key(ItemID, UserID, BidTime),
+    foreign key (ItemID) references Items(ItemID),
+    foreign key (UserID) references Bidders(UserID)
+)ENGINE = INNODB;
+
+create table Categories(
+    ItemID integer not null,
+    Category varchar(100) not null,
+    primary key(ItemID, Category),
+    foreign key (ItemID) references Items(ItemID)
 )ENGINE = INNODB;
