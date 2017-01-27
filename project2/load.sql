@@ -1,14 +1,14 @@
-load data local infile "Sellers.csv" into table Sellers
+load data local infile "Sellers.dat" into table Sellers
 fields terminated by '|*|';
 
-load data local infile "Bidders.csv" into table Bidders
+load data local infile "Bidders.dat" into table Bidders
 fields terminated by '|*|';
 
-load data local infile "Items.csv" into table Items
+load data local infile "Items.dat" into table Items
 fields terminated by '|*|';
 
-load data local infile "Bids.csv" into table Bids
+load data local infile "Bids.dat" into table Bids
 fields terminated by '|*|';
 
-load data local infile "Categories.csv" into table Categories
+load data local infile "Categories.dat" into table Categories
 fields terminated by '|*|';

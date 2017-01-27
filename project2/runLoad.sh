@@ -11,14 +11,14 @@ mysql CS144 < create.sql
 ant run-all
 
 # If the Java code does not handle duplicate removal, do this now
-sort Items.csv -u -o Items.csv
-sort Bids.csv -u -o Bids.csv
-sort Categories.csv -u -o Categories.csv
-sort Sellers.csv -u -o Sellers.csv
-sort Bidders.csv -u -o Bidders.csv
+sort Items.dat -u -o Items.dat
+sort Bids.dat -u -o Bids.dat
+sort Categories.dat -u -o Categories.dat
+sort Sellers.dat -u -o Sellers.dat
+sort Bidders.dat -u -o Bidders.dat
 
 # Run the load.sql batch file to load the data
 mysql CS144 < load.sql
 
 # Remove all temporary files
-rm *.csv
+rm *.dat
