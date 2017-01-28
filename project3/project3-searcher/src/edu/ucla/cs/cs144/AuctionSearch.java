@@ -49,11 +49,40 @@ public class AuctionSearch implements IAuctionSearch {
          * placed at src/edu/ucla/cs/cs144.
          *
          */
+	private IndexSearcher searcher;
+	private QueryParser parser;
+	private static String indexFolder = "/var/lib/lucene/index1/";
 	
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
 		// TODO: Your code here!
-		return new SearchResult[0];
+		if (query.length() == 0||numResultsToReturn+numResultsToSkip <= 0 || numResultsToReturn <= 0 || numResultsToSkip < 0) {
+			return new SearchResult[0];
+		}
+		SearchResult[] sr = new SearchResult[0];
+		try {
+			parser = getParser();
+			searcher = getSearcher();
+			Query q =  parser.parse(query);
+			TopDocs td = searcher.search(q, numResultsToReturn+numResultsToSkip);
+			ScoreDoc[] hits = td.scoreDocs;
+
+			numResultsToReturn = hits.length-numResultsToSkip;
+			if (numResultsToReturn == 0) return sr;
+			sr = new SearchResult[numResultsToReturn];
+
+			for (int i = numResultsToSkip; i < numResultsToSkip+numResultsToReturn; i++) {
+				Document doc = searcher.doc(hits[i].doc);
+				sr[i-numResultsToSkip] = new SearchResult(String.valueOf(doc.get("ItemID")), doc.get("Name"));
+			}
+		} catch (IOException e) {
+			System.out.println(e);
+			return sr;
+		} catch (ParseException e) {
+			System.out.println(e);
+			return sr;
+		}
+		return sr;
 	}
 
 	public SearchResult[] spatialSearch(String query, SearchRegion region,
@@ -69,6 +98,20 @@ public class AuctionSearch implements IAuctionSearch {
 	
 	public String echo(String message) {
 		return message;
+	}
+
+	private IndexSearcher getSearcher() throws IOException {
+		if (searcher == null) {
+			searcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(new File(indexFolder))));
+		}
+		return searcher;
+	}
+
+	private QueryParser getParser() {
+		if (parser == null) {
+			parser = new QueryParser("Content", new StandardAnalyzer());
+		}
+		return parser;
 	}
 
 }
