@@ -24,6 +24,7 @@ public class Indexer {
     /**
      * Creates a new instance of Indexer
      */
+    private static String indexFolder = "/var/lib/lucene/index1/";
 
     public Indexer() {
     }
@@ -36,7 +37,7 @@ public class Indexer {
 
         try {
             conn = DbManager.getConnection(true);
-            Directory indexDir = FSDirectory.open(new File("/var/lib/lucene/index1/"));
+            Directory indexDir = FSDirectory.open(new File(indexFolder));
             IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_2, new StandardAnalyzer());
             indexWriter = new IndexWriter(indexDir, config);
         } catch (SQLException ex) {
@@ -66,6 +67,10 @@ public class Indexer {
          * and place your class source files at src/edu/ucla/cs/cs144/.
 	 *
 	 */
+
+	/*
+	Lucens index field: ItemID, Name, Description, Category, Content
+	*/
         try {
             Statement stmt = conn.createStatement();
             PreparedStatement p_stmt = conn.prepareStatement("select Category from Categories where ItemID=?");
