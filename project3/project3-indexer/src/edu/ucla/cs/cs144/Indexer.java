@@ -10,10 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriter;
@@ -81,8 +78,7 @@ public class Indexer {
                 Document doc = new Document();
                 name = rs.getString("Name");
                 description = rs.getString("Description");
-
-                doc.add(new StringField("ItemID", String.valueOf(id), Field.Store.YES));
+                doc.add(new IntField("ItemID", id, Field.Store.YES));
                 doc.add(new StringField("Name", name, Field.Store.YES));
                 doc.add(new StringField("Description", description, Field.Store.NO));
 
