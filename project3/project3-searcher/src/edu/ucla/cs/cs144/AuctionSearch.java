@@ -105,17 +105,21 @@ public class AuctionSearch implements IAuctionSearch {
                     +"))'), Location)");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                items.add(rs.getInt(1));
+                items.add(rs.getInt("ItemID"));
             }
-            System.out.println("Size: " + items.size());
+            ArrayList<SearchResult> result = new ArrayList<SearchResult>();
+            SearchResult[] basicResult = basicSearch(query, 0, Integer.MAX_VALUE);
+            for (int i = 0; i < basicResult.length && result.size() < numResultsToReturn+numResultsToSkip; i++) {
+                if (items.contains(basicResult[i].getItemId())) {
+                    result.add(basicResult[i]);
+                }
+            }
+            return result.subList(numResultsToSkip, result.size()).toArray(new SearchResult[0]);
         } catch (SQLException e) {
             System.out.println(e);
             System.out.println("Error");
             return sr;
         }
-
-
-		return new SearchResult[0];
 	}
 
 	public String getXMLDataForItemId(String itemId) {
