@@ -3,16 +3,12 @@ package edu.ucla.cs.cs144;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.File;
+import java.sql.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.analysis.Analyzer;
@@ -32,6 +28,8 @@ import org.apache.lucene.util.Version;
 import edu.ucla.cs.cs144.DbManager;
 import edu.ucla.cs.cs144.SearchRegion;
 import edu.ucla.cs.cs144.SearchResult;
+
+import java.util.HashSet;
 
 public class AuctionSearch implements IAuctionSearch {
 
@@ -88,6 +86,35 @@ public class AuctionSearch implements IAuctionSearch {
 	public SearchResult[] spatialSearch(String query, SearchRegion region,
 			int numResultsToSkip, int numResultsToReturn) {
 		// TODO: Your code here!
+        if (query.length() == 0||numResultsToReturn+numResultsToSkip <= 0 || numResultsToReturn <= 0 || numResultsToSkip < 0) {
+            return new SearchResult[0];
+        }
+
+        SearchResult[] sr = new SearchResult[0];
+        Connection conn;
+        try {
+            conn = DbManager.getConnection(true);
+            HashSet<Integer> items = new HashSet<Integer>();
+            PreparedStatement stmt  =
+                    conn.prepareStatement("select ItemID from Locations where MBRContains(GeomFromText('Polygon(("
+                    +region.getLx()+" "+region.getLy()+","
+                    +region.getLx()+" "+region.getRy()+","
+                    +region.getRx()+" "+region.getRy()+","
+                    +region.getRx()+" "+region.getLy()+","
+                    +region.getLx()+" "+region.getLy()
+                    +"))'), Location)");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                items.add(rs.getInt(1));
+            }
+            System.out.println("Size: " + items.size());
+        } catch (SQLException e) {
+            System.out.println(e);
+            System.out.println("Error");
+            return sr;
+        }
+
+
 		return new SearchResult[0];
 	}
 
