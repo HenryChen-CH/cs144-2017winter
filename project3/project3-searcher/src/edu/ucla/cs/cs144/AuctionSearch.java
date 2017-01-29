@@ -138,11 +138,17 @@ public class AuctionSearch implements IAuctionSearch {
             PreparedStatement item_stmt = conn.prepareStatement("select * from Items where ItemID=?");
             PreparedStatement category_stmt = conn.prepareCall("select Category from Categories where ItemID=?");
             PreparedStatement bids_stmt = conn.prepareStatement("select * from Bids where ItemId=?");
+            PreparedStatement bidder_stmt = conn.prepareCall("select * from Bidders where binary UserID=?");
+            PreparedStatement seller_stmt = conn.prepareCall("select * from Sellers where binary UserID=?");
 
             item_stmt.setInt(1, id);
             category_stmt.setInt(1, id);
+            bids_stmt.setInt(1, id);
+
             ResultSet cat_rs = category_stmt.executeQuery();
             ResultSet item_rs = item_stmt.executeQuery();
+            ResultSet bids_rs = bids_stmt.executeQuery();
+
             Element item = doc.createElement("Item");
             item.setAttribute("ItemID", itemId);
             doc.appendChild(item);
@@ -156,7 +162,7 @@ public class AuctionSearch implements IAuctionSearch {
                             cat.appendChild(doc.createTextNode(cat_rs.getString(col)));
                             item.appendChild(cat);
                         }
-                    } else if (col.equals("Currently") || col.equals("Buy_Price")) {
+                    } else if (col.equals("Currently") || col.equals("Buy_Price") || col.equals("First_Bid")) {
                         Double price = item_rs.getDouble(col);
                         if (price != null && price != 0) {
                             Element tmp = doc.createElement(col);
@@ -165,14 +171,77 @@ public class AuctionSearch implements IAuctionSearch {
                         }
                     } else if (col.equals("Number_of_Bids")) {
                         item.appendChild(num_bids);
+                        num = 0;
                     } else if (col.equals("Bids")) {
+                        Element bids = doc.createElement(col);
+                        while (bids_rs.next()) {
+                            num++;
+                            Element bid = doc.createElement("Bid");
+                            Element bidder = doc.createElement("Bidder");
+                            String bidderID = bids_rs.getString("UserID");
+                            bidder_stmt.setString(1, bidderID);
+                            ResultSet bidder_rs = bidder_stmt.executeQuery();
+                            if (bidder_rs.next()) {
+                                bidder.setAttribute("Rating", String.valueOf(bidder_rs.getInt("Rating")));
+                                String location = bidder_rs.getString("Address");
+                                String country = bidder_rs.getString("Country");
+                                if (location != null && location.length() != 0) {
+                                    Element locati = doc.createElement("Location");
+                                    locati.appendChild(doc.createTextNode(location));
+                                    bidder.appendChild(locati);
+                                }
+                                if (country != null && country.length() != 0) {
+                                    Element cou = doc.createElement("Country");
+                                    cou.appendChild(doc.createTextNode(country));
+                                    bidder.appendChild(cou);
+                                }
+                            }
+                            Timestamp date = bids_rs.getTimestamp("BidTime");
+                            Double amount = bids_rs.getDouble("Amount");
+                            bidder.setAttribute("UserID", bidderID);
+                            bid.appendChild(bidder);
+                            Element time = doc.createElement("Time");
+                            time.appendChild(doc.createTextNode(dateToString(date)));
+                            bid.appendChild(time);
+                            Element amo = doc.createElement("Amount");
+                            amo.appendChild(doc.createTextNode("$"+String.format("%.2f", amount)));
+                            bid.appendChild(amo);
 
+                            bids.appendChild(bid);
+                        }
+                        num_bids.appendChild(doc.createTextNode(String.valueOf(num)));
+                        item.appendChild(bids);
+                    } else if (col.equals("Location")) {
+                        Element location = doc.createElement("Location");
+                        location.appendChild(doc.createTextNode(item_rs.getString(col)));
+                        String Latitude = item_rs.getString("Latitude");
+                        String Longitude= item_rs.getString("Longitude");
+                        if (Latitude != null && Latitude.length() != 0) {
+                            location.setAttribute("Latitude", Latitude);
+                        }
+                        if (Longitude != null && Longitude.length() != 0) {
+                            location.setAttribute("Longitude", Longitude);
+                        }
+                        item.appendChild(location);
+                    } else if (col.equals("Started") || col.equals("Ends")) {
+                        Element tmp = doc.createElement(col);
+                        tmp.appendChild(doc.createTextNode(dateToString(item_rs.getTimestamp(col))));
+                        item.appendChild(tmp);
+                    } else if (col.equals("Seller")) {
+                        String sellerID = item_rs.getString("SellerID");
+                        Element seller = doc.createElement(col);
+                        seller_stmt.setString(1, sellerID);
+                        ResultSet rs = seller_stmt.executeQuery();
+                        if (rs.next()) {
+                            seller.setAttribute("Rating", String.valueOf(rs.getInt("Rating")));
+                        }
+                        seller.setAttribute("UserID", sellerID);
+                        item.appendChild(seller);
+                    } else {
+                        Element tmp = doc.createElement(col);
+                        tmp.appendChild(doc.createTextNode(item_rs.getString(col)));
+                        item.appendChild(tmp);
                     }
-//                    } else {
-//                        Element tmp = doc.createElement(col);
-//                        tmp.appendChild(doc.createTextNode(item_rs.getString(col)));
-//                        item.appendChild(tmp);
-//                    }
                 }
             } else {
                 return "";
@@ -188,13 +257,19 @@ public class AuctionSearch implements IAuctionSearch {
             DOMSource source = new DOMSource(doc);
             transformer.transform(source, results);
 
+            conn.close();
             return results.getWriter().toString();
         } catch (Exception e) {
             System.out.println(e);
         }
 		return "";
 	}
-	
+
+	private String dateToString(Timestamp date) {
+        SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
+        return format.format(date);
+    }
+
 	public String echo(String message) {
 		return message;
 	}
