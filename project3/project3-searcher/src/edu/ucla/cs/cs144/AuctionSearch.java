@@ -54,7 +54,7 @@ public class AuctionSearch implements IAuctionSearch {
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
 		// TODO: Your code here!
-		if (query.length() == 0||numResultsToReturn+numResultsToSkip <= 0 || numResultsToReturn <= 0 || numResultsToSkip < 0) {
+		if (query.length() == 0|| (long)numResultsToReturn+numResultsToSkip <= 0 || numResultsToReturn <= 0 || numResultsToSkip < 0) {
 			return new SearchResult[0];
 		}
 		SearchResult[] sr = new SearchResult[0];
@@ -86,7 +86,7 @@ public class AuctionSearch implements IAuctionSearch {
 	public SearchResult[] spatialSearch(String query, SearchRegion region,
 			int numResultsToSkip, int numResultsToReturn) {
 		// TODO: Your code here!
-        if (query.length() == 0||numResultsToReturn+numResultsToSkip <= 0 || numResultsToReturn <= 0 || numResultsToSkip < 0) {
+        if (query.length() == 0|| (long)numResultsToReturn+numResultsToSkip <= 0 || numResultsToReturn <= 0 || numResultsToSkip < 0) {
             return new SearchResult[0];
         }
 
