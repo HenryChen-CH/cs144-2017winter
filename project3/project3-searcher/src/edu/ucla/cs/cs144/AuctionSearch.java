@@ -100,9 +100,9 @@ public class AuctionSearch implements IAuctionSearch {
             PreparedStatement stmt  =
                     conn.prepareStatement("select ItemID from Locations where MBRContains(GeomFromText('Polygon(("
                     +region.getLx()+" "+region.getLy()+","
-                    +region.getLx()+" "+region.getRy()+","
-                    +region.getRx()+" "+region.getRy()+","
                     +region.getRx()+" "+region.getLy()+","
+                    +region.getRx()+" "+region.getRy()+","
+                    +region.getLx()+" "+region.getRy()+","
                     +region.getLx()+" "+region.getLy()
                     +"))'), Location)");
             ResultSet rs = stmt.executeQuery();
