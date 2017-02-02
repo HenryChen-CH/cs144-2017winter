@@ -15,7 +15,7 @@ public class AuctionSearchTest {
 		String message = "Test message";
 		String reply = as.echo(message);
 		System.out.println("Reply: " + reply);
-		
+
 		String query = "superman";
 		SearchResult[] basicResults = as.basicSearch(query, 0, 1000);
 		System.out.println("Basic Seacrh Query: " + query);
@@ -33,22 +33,23 @@ public class AuctionSearchTest {
 		basicResults = as.basicSearch(query, 0, 3000);
 		System.out.println("Basic Seacrh Query: " + query);
 		System.out.println("Received " + basicResults.length + " results");
-		
+
 		SearchRegion region =
-		    new SearchRegion(33.774, -118.63, 34.201, -117.38); 
+		    new SearchRegion(33.774, -118.63, 34.201, -117.38);
 		SearchResult[] spatialResults = as.spatialSearch("camera", region, 0, 20);
 		System.out.println("Spatial Seacrh");
 		System.out.println("Received " + spatialResults.length + " results");
 		for(SearchResult result : spatialResults) {
 			System.out.println(result.getItemId() + ": " + result.getName());
+			System.out.println(as.getXMLDataForItemId(result.getItemId()));
 		}
-		
+
 //		String itemId = "1497595357";
 //		String item = as.getXMLDataForItemId(itemId);
 //		System.out.println("XML data for ItemId: " + itemId);
 //		System.out.println(item);
 
-		String itemId = "1044027229";
+		String itemId = "1677060104";
 		String item = as.getXMLDataForItemId(itemId);
 		System.out.println("XML data for ItemId: " + itemId);
 		System.out.println(item);

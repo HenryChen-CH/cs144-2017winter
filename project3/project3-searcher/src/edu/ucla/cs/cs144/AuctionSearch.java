@@ -112,7 +112,7 @@ public class AuctionSearch implements IAuctionSearch {
             ArrayList<SearchResult> result = new ArrayList<SearchResult>();
             SearchResult[] basicResult = basicSearch(query, 0, Integer.MAX_VALUE);
             for (int i = 0; i < basicResult.length && result.size() < numResultsToReturn+numResultsToSkip; i++) {
-                if (items.contains(basicResult[i].getItemId())) {
+                if (items.contains(Integer.parseInt(basicResult[i].getItemId()))) {
                     result.add(basicResult[i]);
                 }
             }
