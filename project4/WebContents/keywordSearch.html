@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>KeywordSearch</title>
+	<style type="text/css">
+		form {
+			display: table;
+		}
+
+		p {
+			display: table-row;
+		}
+
+		label {
+			display: table-cell;
+		}
+
+		input {
+			display: table-cell;
+		}
+	</style>
+</head>
+
+<body>
+	<form method="GET" action="/eBay/search">
+		<p>
+			<label for="">Query:</label>
+			<input type="text" name="q"> <br>
+		</p>
+		<p>
+			<label for="">Num Results To Skip:</label>
+			<input type="number" name="numResultsToSkip" min="0" value="0"><br>
+		</p>
+		<p>
+			<label for="">Num Results To Return:</label>
+			<input type="number" name="numResultsToReturn" min="0" value="10"><br>
+		</p>
+
+		<input type="submit">
+	</form>
+</body>
+
+</html>
