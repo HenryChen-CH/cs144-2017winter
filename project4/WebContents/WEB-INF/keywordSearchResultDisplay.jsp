@@ -53,7 +53,7 @@
         int numResultsToSkip = Integer.parseInt((String)request.getParameter("numResultsToSkip"));
         int numResultsToReturn = Integer.parseInt((String)request.getParameter("numResultsToReturn"));
         String prev = "/eBay/search?q="+q+"&numResultsToSkip="+Math.max(0, numResultsToSkip-numResultsToReturn)+"&numResultsToReturn="+numResultsToReturn;
-        String next = "/eBay/search?q="+q+"&numResultsToSkip="+(numResultsToSkip+numResultsToReturn)+"&numResultsToReturn="+numResultsToReturn;
+        String next = "/eBay/search?q="+q+"&numResultsToSkip="+(results.length != numResultsToReturn? numResultsToSkip: (numResultsToSkip+numResultsToReturn))+"&numResultsToReturn="+numResultsToReturn;
     %>
     <a href="<%= prev%>"><span>prev</span></a><span>&nbsp&nbsp</span>
     <a href="<%= next%>"><span>next</span></a>
