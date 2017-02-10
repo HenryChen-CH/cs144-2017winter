@@ -9,10 +9,21 @@
 	<title><%= "Item"+item.id%></title>
 </head>
 <body>
-	<% if (item == null) { %>
-        <p>Item Not foune</p>
+<div>
+    <form method="GET" action="/eBay/item">
+        <p>
+            <label for="">Item ID:</label>
+            <input type="text" name="id"> <br>
+        </p>
+
+        <input type="submit">
+    </form>
+</div>
+<div>
+    <% if (item == null) { %>
+    <p>Item Not foune</p>
     <%
-        } else {
+    } else {
     %>
     <table border=1 align="center" width="50%">
         <tr>
@@ -43,12 +54,12 @@
             <td><%= item.currently%></td>
         </tr>
         <% if (item.firstBId != null && item.firstBId.length() != 0) { %>
-            <tr>
-                <td>First Bid:</td>
-                <td><%= item.firstBId%></td>
-            </tr>
+        <tr>
+            <td>First Bid:</td>
+            <td><%= item.firstBId%></td>
+        </tr>
         <%
-        }
+            }
         %>
         <tr>
             <td>Num of bids:</td>
@@ -60,10 +71,10 @@
                 <ul>
                     <li><%= item.location.location%></li>
                     <% if (item.location.latitude!= null && item.location.latitude.length() != 0) { %>
-                        <li><%= "Latitude: "+item.location.latitude%></li>
-                        <li><%= "Longitude: "+item.location.longitude%></li>
+                    <li><%= "Latitude: "+item.location.latitude%></li>
+                    <li><%= "Longitude: "+item.location.longitude%></li>
                     <%
-                    }
+                        }
                     %>
                 </ul>
             </td>
@@ -113,23 +124,25 @@
         </tr>
         <% int i = 0;%>
         <% for (Bid bid: item.bids) { %>
-            <tr>
-                <td><%= ++i %></td>
-                <td>
-                    <ul>
-                        <li><%= "UserID: "+bid.bidder.userID%></li>
-                        <li><%= "Rating: "+bid.bidder.rating%></li>
-                    </ul>
-                </td>
-                <td><%= bid.time%></td>
-                <td><%= bid.amount%></td>
-            </tr>
+        <tr>
+            <td><%= ++i %></td>
+            <td>
+                <ul>
+                    <li><%= "UserID: "+bid.bidder.userID%></li>
+                    <li><%= "Rating: "+bid.bidder.rating%></li>
+                </ul>
+            </td>
+            <td><%= bid.time%></td>
+            <td><%= bid.amount%></td>
+        </tr>
         <%
-        }
+            }
         %>
     </table>
     <%
         }
     %>
+</div>
+
 </body>
 </html>
