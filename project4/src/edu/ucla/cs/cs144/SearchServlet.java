@@ -21,7 +21,7 @@ public class SearchServlet extends HttpServlet implements Servlet {
         numResultsToSkip = Integer.parseInt((String)request.getParameter("numResultsToSkip"));
         numResultsToReturn = Integer.parseInt((String)request.getParameter("numResultsToReturn"));
         SearchResult[] sr = AuctionSearch.basicSearch(query, numResultsToSkip, numResultsToReturn);
-        
+
         request.setAttribute("results", sr);
         request.getRequestDispatcher("/WEB-INF/keywordSearchResultDisplay.jsp").forward(request, response);
 

@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.xml.bind.JAXB;
+import java.io.StringReader;
+
 public class ItemServlet extends HttpServlet implements Servlet {
        
     public ItemServlet() {}
@@ -14,5 +17,12 @@ public class ItemServlet extends HttpServlet implements Servlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         // your codes here
+        String xml = AuctionSearch.getXMLDataForItemId(request.getParameter("id"));
+        StringReader reader = new StringReader(xml);
+        Item item = JAXB.unmarshal(reader, Item.class);
+        item.sortedBids();
+        request.setAttribute("item", item);
+
+        request.getRequestDispatcher("WEB-INF/itemDisplay.jsp").forward(request, response);
     }
 }
