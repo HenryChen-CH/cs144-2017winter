@@ -16,7 +16,7 @@
     <form method="GET" action="/eBay/search">
         <p>
             <label for="">Query:</label>
-            <input id = "q" type="text" name="q">
+            <input autocomplete="off" id = "q" type="text" name="q">
         </p>
         <p>
             <label for="">Num Results To Skip:</label>
