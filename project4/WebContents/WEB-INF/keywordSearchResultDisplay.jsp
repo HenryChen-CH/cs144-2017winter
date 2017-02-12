@@ -3,13 +3,20 @@
 <html>
 <head>
 	<title>Keyword Search Result</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dropdown.css">
+    <script src="${pageContext.request.contextPath}/autocomplete.js" type='text/javascript'></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var oTextbox = new AutoSuggestControl(document.getElementById("q"), new StateSuggestions());
+        }
+    </script>
 </head>
 <body>
 <div>
     <form method="GET" action="/eBay/search">
         <p>
             <label for="">Query:</label>
-            <input type="text" name="q">
+            <input id = "q" type="text" name="q">
         </p>
         <p>
             <label for="">Num Results To Skip:</label>
