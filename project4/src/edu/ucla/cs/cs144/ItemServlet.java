@@ -19,10 +19,14 @@ public class ItemServlet extends HttpServlet implements Servlet {
         // your codes here
         String xml = AuctionSearch.getXMLDataForItemId(request.getParameter("id"));
         StringReader reader = new StringReader(xml);
-        Item item = JAXB.unmarshal(reader, Item.class);
-        item.sortedBids();
-        request.setAttribute("item", item);
+        try {
+            Item item = JAXB.unmarshal(reader, Item.class);
+            item.sortedBids();
+            request.setAttribute("item", item);
 
-        request.getRequestDispatcher("WEB-INF/itemDisplay.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/itemDisplay.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.getRequestDispatcher("getItem.html").forward(request, response);
+        }
     }
 }
