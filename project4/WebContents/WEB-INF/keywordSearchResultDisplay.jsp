@@ -4,6 +4,7 @@
 <head>
 	<title>Keyword Search Result</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dropdown.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap.min.css">
     <script src="${pageContext.request.contextPath}/autocomplete.js" type='text/javascript'></script>
     <script type="text/javascript">
         window.onload = function () {
@@ -12,22 +13,21 @@
     </script>
 </head>
 <body>
-<div>
+<div style="width: 20%">
     <form method="GET" action="/eBay/search">
-        <p>
-            <label for="">Query:</label>
-            <input autocomplete="off" id = "q" type="text" name="q">
-        </p>
-        <p>
-            <label for="">Num Results To Skip:</label>
-            <input type="number" name="numResultsToSkip" min="0" value="0">
-        </p>
-        <p>
-            <label for="">Num Results To Return:</label>
-            <input type="number" name="numResultsToReturn" min="0" value="10">
-        </p>
-
-        <input type="submit">
+        <div class="form-group">
+            <label for="q">Query</label>
+            <input autocomplete="off" class="form-control" id = "q" type="text" name="q" placeholder="Enter Query">
+        </div>
+        <div class="form-group">
+            <label for="numResultsToSkip">Num Results To Skip:</label>
+            <input class="form-control" id = "numResultsToSkip" type="number" min="0" value="0" name="numResultsToSkip" placeholder="Num Results To Skip">
+        </div>
+        <div class="form-group">
+            <label for="numResultsToReturn">Num Results To Return:</label>
+            <input class="form-control" id = "numResultsToReturn" type="number" min="10" value="10" name="numResultsToReturn" placeholder="Num Results To Return">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 

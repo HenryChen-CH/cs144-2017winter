@@ -9,6 +9,7 @@
 	<title><%= "Item"+item.id%></title>
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap.min.css">
     <script type="text/javascript">
         function initialize() {
             <% if (item.location.latitude != null && item.location.latitude.length() > 0) {
