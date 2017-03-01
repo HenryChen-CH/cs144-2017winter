@@ -18,6 +18,10 @@ public class SearchServlet extends HttpServlet implements Servlet {
         int numResultsToSkip = 0, numResultsToReturn = 0;
 
         query = (String)request.getParameter("q");
+        if (query == null) {
+            request.getRequestDispatcher("/keywordSearch.html").forward(request, response);
+            return;
+        }
         numResultsToSkip = Integer.parseInt((String)request.getParameter("numResultsToSkip"));
         numResultsToReturn = Integer.parseInt((String)request.getParameter("numResultsToReturn"));
         SearchResult[] sr = AuctionSearch.basicSearch(query, numResultsToSkip, numResultsToReturn);
