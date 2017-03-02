@@ -1,0 +1,10 @@
+.DS_Store
+*.csv
+*.class
+*.txt
+*.zip
+*.xml
+*.dtd
+!README.txt
+ant-test/*.*
+project2.iml
