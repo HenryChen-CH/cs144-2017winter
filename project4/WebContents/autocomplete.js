@@ -70,6 +70,7 @@ AutoSuggestControl.prototype.createDropDown = function () {
     this.layer = document.createElement("div");
     this.layer.className = "suggestions";
     this.layer.style.visibility = "hidden";
+    this.layer.style.zIndex = "1";
     this.layer.style.width = this.textbox.offsetWidth;
 
     //when the user clicks on the a suggestion, get the text (innerHTML)
@@ -91,7 +92,7 @@ AutoSuggestControl.prototype.createDropDown = function () {
             };
 
 
-    document.body.appendChild(this.layer);
+    document.getElementById("qq").appendChild(this.layer);
 };
 
 /**
@@ -313,7 +314,7 @@ AutoSuggestControl.prototype.showSuggestions = function (aSuggestions /*:Array*/
     }
 
     this.layer.style.left = this.getLeft() + "px";
-    this.layer.style.top = (this.getTop()+this.textbox.offsetHeight) + "px";
+    this.layer.style.top = (this.getTop()+this.textbox.offsetHeight - 50) + "px";
     this.layer.style.visibility = "visible";
 
 };
@@ -359,6 +360,7 @@ StateSuggestions.prototype.requestSuggestions = function (oAutoSuggestControl, b
                 var suggests = doc.getElementsByTagName("suggestion");
                 for (var i = 0; i < suggests.length; i++) {
                     var node = suggests[i];
+                    console.log(node);
                     aSuggestions.push(node.getAttribute("data"));
                 }
                 oAutoSuggestControl.autosuggest(aSuggestions, bTypeAhead);
