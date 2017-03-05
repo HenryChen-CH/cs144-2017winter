@@ -3,7 +3,6 @@
 *.class
 *.txt
 *.zip
-*.xml
 *.dtd
 !README.txt
 ant-test/*.*
@@ -19,3 +18,5 @@ project4/.idea/
 project4/build/
 startbootstrap-sb-admin-2-gh-pages/
 project5/project5.iml
+items-0.xml
+items-20.xml

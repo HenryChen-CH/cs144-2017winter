@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXB;
 import java.io.StringReader;
 
@@ -23,6 +24,8 @@ public class ItemServlet extends HttpServlet implements Servlet {
             Item item = JAXB.unmarshal(reader, Item.class);
             item.sortedBids();
             request.setAttribute("item", item);
+            HttpSession session = request.getSession(true);
+            session.setAttribute("item", item);
 
             request.getRequestDispatcher("WEB-INF/itemDisplay.jsp").forward(request, response);
         } catch (Exception e) {

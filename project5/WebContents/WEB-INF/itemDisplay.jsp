@@ -239,6 +239,20 @@
                         <td>Currently:</td>
                         <td><%= item.currently%></td>
                     </tr>
+                    <% if (item.buyPrice != null && item.buyPrice.length() != 0) { %>
+                        <tr>
+                            <td>Buy Price</td>
+                            <td>
+                                <span><%= item.buyPrice%></span>
+                                <%
+                                    int securePort = 8443;
+                                    String secureUrl = "https://"+request.getServerName()+":"+securePort+request.getContextPath()+"/buy";
+                                %>
+                                <span><a href="<%= secureUrl%>"><button type="button" class="btn btn-primary">Pay Now</button></a></span>
+                            </td>
+                        </tr>
+                    <%
+                    } %>
                     <% if (item.firstBId != null && item.firstBId.length() != 0) { %>
                     <tr>
                         <td>First Bid:</td>
