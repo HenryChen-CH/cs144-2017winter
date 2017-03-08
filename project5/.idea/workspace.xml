@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4d1c80e-2095-4445-829d-d94c285c3314" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebContents/WEB-INF/buyPage.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebContents/WEB-INF/confirmPage.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/edu/ucla/cs/cs144/BuyServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/eBay.war" afterPath="$PROJECT_DIR$/build/eBay.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContents/WEB-INF/itemDisplay.jsp" afterPath="$PROJECT_DIR$/WebContents/WEB-INF/itemDisplay.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/WEB-INF/itemDisplay.jsp" afterPath="$PROJECT_DIR$/build/WEB-INF/itemDisplay.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/ucla/cs/cs144/ItemServlet.java" afterPath="$PROJECT_DIR$/src/edu/ucla/cs/cs144/ItemServlet.java" />
-    </list>
+    <list default="true" id="c4d1c80e-2095-4445-829d-d94c285c3314" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -147,8 +138,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="x" value="232" />
+    <option name="y" value="57" />
+    <option name="width" value="1433" />
+    <option name="height" value="953" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -239,7 +232,6 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="FullScreen" value="true" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
@@ -877,15 +869,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1488677744582</updated>
-      <workItem from="1488677748179" duration="8479000" />
+      <workItem from="1488677748179" duration="8758000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8479000" />
+    <option name="totallyTimeSpent" value="8758000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="232" y="57" width="1433" height="953" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
